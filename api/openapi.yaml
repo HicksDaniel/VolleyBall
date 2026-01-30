@@ -1,0 +1,135 @@
+openapi: 3.0.3
+info:
+  title: Pro Volleyball API
+  version: 0.1.0
+
+paths:
+  /teams:
+    get:
+      summary: List teams
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TeamListResponse"
+
+  /seasons:
+    get:
+      summary: List seasons
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SeasonListResponse"
+
+  /rosters:
+    get:
+      summary: List rosters
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RosterListResponse'
+
+
+components:
+  schemas:
+    Team:
+      type: object
+      required:
+        - id
+        - name
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        short_name:
+          type: string
+          nullable: true
+        city:
+          type: string
+          nullable: true
+        logo_id:
+          type: integer
+          nullable: true
+
+    TeamListResponse:
+      type: object
+      required:
+        - data
+      properties:
+        data:
+          type: array
+          items:
+            $ref: "#/components/schemas/Team"
+
+    Season:
+      type: object
+      required:
+        - id
+        - title
+        - is_active
+      properties:
+        id:
+          type: integer
+        sort:
+          type: integer
+        title:
+          type: string
+        start_date:
+          type: string
+          format: date-time
+        end_date:
+          type: string
+          format: date-time
+        is_active:
+          type: boolean
+
+    SeasonListResponse:
+      type: object
+      required:
+        - data
+      properties:
+        data:
+          type: array
+          items:
+            $ref: "#/components/schemas/Season"
+
+    Roster:
+      type: object
+      required:
+        - id
+        - team_id
+        - season_id
+        - title
+        - slug
+      properties:
+        id:
+          type: integer
+        team_id:
+          type: integer
+        season_id:
+          type: integer
+        title:
+          type: string
+        slug:
+          type: string
+
+
+    RosterListResponse:
+      type: object
+      required:
+        - data
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Roster'
+

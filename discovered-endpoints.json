@@ -1,0 +1,42 @@
+[
+  {
+    "path": "teams",
+    "status": 200,
+    "contentType": "application/json"
+  },
+  {
+    "path": "rosters",
+    "status": 200,
+    "contentType": "application/json"
+  },
+  {
+    "path": "players",
+    "status": 200,
+    "contentType": "application/json"
+  },
+  {
+    "path": "schedule-events",
+    "status": 200,
+    "contentType": "application/json"
+  },
+  {
+    "path": "standings",
+    "status": 200,
+    "contentType": "application/json"
+  },
+  {
+    "path": "articles",
+    "status": 200,
+    "contentType": "application/json"
+  },
+  {
+    "path": "seasons",
+    "status": 200,
+    "contentType": "application/json"
+  },
+  {
+    "path": "events",
+    "status": 200,
+    "contentType": "text/html; charset=UTF-8"
+  }
+]
