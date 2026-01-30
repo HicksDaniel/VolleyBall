@@ -7,6 +7,7 @@ import JSONFetch from "../utils/helpers/JSONFetch"
 type RosterDetail = components['schemas']['RosterDetail']
 type RosterDetailResponse = components['schemas']['RosterDetailResponse']
 
+const name = "name"
 const BASE_URL = 'https://provolleyball.com/api'
 const route = useRoute()
 
