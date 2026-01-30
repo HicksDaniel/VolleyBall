@@ -30,21 +30,81 @@ paths:
     get:
       summary: List rosters
       responses:
-        '200':
+        "200":
           description: OK
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/RosterListResponse'
+                $ref: "#/components/schemas/RosterListResponse"
 
+  /rosters/{rosterId}:
+    get:
+      summary: Get roster by ID
+      parameters:
+        - name: rosterId
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RosterDetailResponse"
+
+  /rosters/{rosterId}/player-rosters:
+    get:
+      summary: List players on a roster
+      parameters:
+        - name: rosterId
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PlayerRosterListResponse"
+
+  /players:
+    get:
+      summary: List players
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PlayerListResponse"
+
+  /players/{playerId}:
+    get:
+      summary: Get player by ID
+      parameters:
+        - name: playerId
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PlayerResponse"
 
 components:
   schemas:
+    # ---------- Teams ----------
     Team:
       type: object
-      required:
-        - id
-        - name
+      required: [id, name]
       properties:
         id:
           type: integer
@@ -60,22 +120,32 @@ components:
           type: integer
           nullable: true
 
+    TeamSummary:
+      type: object
+      required: [id, name, slug]
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        slug:
+          type: string
+        permalink:
+          type: string
+
     TeamListResponse:
       type: object
-      required:
-        - data
+      required: [data]
       properties:
         data:
           type: array
           items:
             $ref: "#/components/schemas/Team"
 
+    # ---------- Seasons ----------
     Season:
       type: object
-      required:
-        - id
-        - title
-        - is_active
+      required: [id, title, is_active]
       properties:
         id:
           type: integer
@@ -94,42 +164,239 @@ components:
 
     SeasonListResponse:
       type: object
-      required:
-        - data
+      required: [data]
       properties:
         data:
           type: array
           items:
             $ref: "#/components/schemas/Season"
 
+    # ---------- Rosters (list / summary) ----------
     Roster:
       type: object
-      required:
-        - id
-        - team_id
-        - season_id
-        - title
-        - slug
+      required: [id, name, slug, team_id, season_id]
       properties:
         id:
           type: integer
+        name:
+          type: string
+        slug:
+          type: string
+        permalink:
+          type: string
         team_id:
           type: integer
         season_id:
           type: integer
-        title:
-          type: string
-        slug:
-          type: string
-
+        team:
+          $ref: "#/components/schemas/TeamSummary"
+        sort:
+          type: integer
+        hidden:
+          type: boolean
 
     RosterListResponse:
       type: object
-      required:
-        - data
+      required: [data]
       properties:
         data:
           type: array
           items:
-            $ref: '#/components/schemas/Roster'
+            $ref: "#/components/schemas/Roster"
 
+    # ---------- Roster (detail) ----------
+    RosterDetail:
+      type: object
+      required: [id, name, team_id]
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        slug:
+          type: string
+        permalink:
+          type: string
+        team_id:
+          type: integer
+        team:
+          $ref: "#/components/schemas/Team"
+        color:
+          type: string
+          nullable: true
+        text_color:
+          type: string
+          nullable: true
+        current_roster_id:
+          type: integer
+          nullable: true
+        current_season_id:
+          type: integer
+          nullable: true
+        season_id:
+          type: integer
+        hidden:
+          type: boolean
+        default_layout_view:
+          type: string
+        hide_headshots:
+          type: boolean
+        hide_view_bio_button:
+          type: boolean
+        sort_players_by:
+          type: string
+
+    RosterDetailResponse:
+      type: object
+      required: [data]
+      properties:
+        data:
+          $ref: "#/components/schemas/RosterDetail"
+
+    # ---------- Players ----------
+    Player:
+      type: object
+      required:
+        - id
+        - first_name
+        - last_name
+        - full_name
+        - slug
+        - gender
+        - status
+      properties:
+        id:
+          type: integer
+        first_name:
+          type: string
+        last_name:
+          type: string
+        full_name:
+          type: string
+        slug:
+          type: string
+        high_school:
+          type: string
+          nullable: true
+        high_school_graduate_year:
+          type: integer
+          nullable: true
+        college:
+          type: string
+          nullable: true
+        college_graduate_year:
+          type: integer
+          nullable: true
+        hometown:
+          type: string
+          nullable: true
+        birth_date:
+          type: string
+          format: date
+          nullable: true
+        age:
+          type: integer
+          nullable: true
+        weight:
+          type: integer
+          nullable: true
+        height_feet:
+          type: integer
+          nullable: true
+        height_inches:
+          type: integer
+          nullable: true
+        jersey_number:
+          type: integer
+          nullable: true
+        gender:
+          type: string
+        gender_label:
+          type: string
+        status:
+          type: string
+        published_at:
+          type: string
+          format: date-time
+        permalink:
+          type: string
+        hero_image_id:
+          type: integer
+          nullable: true
+        headshot_image_id:
+          type: integer
+          nullable: true
+        beauty_image_id:
+          type: integer
+          nullable: true
+        action_headshot_image_id:
+          type: integer
+          nullable: true
+
+    PlayerListResponse:
+      type: object
+      required: [data]
+      properties:
+        data:
+          type: array
+          items:
+            $ref: "#/components/schemas/Player"
+
+    PlayerResponse:
+      type: object
+      required: [data]
+      properties:
+        data:
+          $ref: "#/components/schemas/Player"
+
+    # ---------- Player Rosters ----------
+    PlayerRoster:
+      type: object
+      required: [id, roster_id, player_id, player]
+      properties:
+        id:
+          type: integer
+        roster_id:
+          type: integer
+        player_id:
+          type: integer
+        player:
+          $ref: "#/components/schemas/Player"
+        headshot_image_id:
+          type: integer
+          nullable: true
+        jersey_number:
+          type: integer
+          nullable: true
+        college:
+          type: string
+          nullable: true
+        years_in_the_league:
+          type: integer
+          nullable: true
+        pro_experience:
+          type: string
+          nullable: true
+          description: HTML content
+        permalink:
+          type: string
+        height_feet:
+          type: integer
+          nullable: true
+        height_inches:
+          type: integer
+          nullable: true
+        hidden:
+          type: boolean
+        league_category:
+          type: string
+          nullable: true
+
+    PlayerRosterListResponse:
+      type: object
+      required: [data]
+      properties:
+        data:
+          type: array
+          items:
+            $ref: "#/components/schemas/PlayerRoster"

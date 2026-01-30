@@ -5,5 +5,5 @@ export default async function JSONFetch<T>(url: string, options?: RequestInit): 
         throw new Error(`HTTP ${response.status}`)
     }
 
-    return await res.json() as Promise<T>
+    return await response.json() as Promise<T>
 }

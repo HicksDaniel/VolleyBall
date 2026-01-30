@@ -112,6 +112,156 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/rosters/{rosterId}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Get roster by ID */
+        get: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    rosterId: number;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["RosterDetailResponse"];
+                    };
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/rosters/{rosterId}/player-rosters": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** List players on a roster */
+        get: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    rosterId: number;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["PlayerRosterListResponse"];
+                    };
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/players": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** List players */
+        get: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["PlayerListResponse"];
+                    };
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/players/{playerId}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Get player by ID */
+        get: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    playerId: number;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["PlayerResponse"];
+                    };
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
 }
 export type webhooks = Record<string, never>;
 export interface components {
@@ -122,6 +272,12 @@ export interface components {
             short_name?: string | null;
             city?: string | null;
             logo_id?: number | null;
+        };
+        TeamSummary: {
+            id: number;
+            name: string;
+            slug: string;
+            permalink?: string;
         };
         TeamListResponse: {
             data: components["schemas"]["Team"][];
@@ -141,13 +297,93 @@ export interface components {
         };
         Roster: {
             id: number;
+            name: string;
+            slug: string;
+            permalink?: string;
             team_id: number;
             season_id: number;
-            title: string;
-            slug: string;
+            team?: components["schemas"]["TeamSummary"];
+            sort?: number;
+            hidden?: boolean;
         };
         RosterListResponse: {
             data: components["schemas"]["Roster"][];
+        };
+        RosterDetail: {
+            id: number;
+            name: string;
+            slug?: string;
+            permalink?: string;
+            team_id: number;
+            team?: components["schemas"]["Team"];
+            color?: string | null;
+            text_color?: string | null;
+            current_roster_id?: number | null;
+            current_season_id?: number | null;
+            season_id?: number;
+            hidden?: boolean;
+            default_layout_view?: string;
+            hide_headshots?: boolean;
+            hide_view_bio_button?: boolean;
+            sort_players_by?: string;
+        };
+        RosterDetailResponse: {
+            data: components["schemas"]["RosterDetail"];
+        };
+        Player: {
+            id: number;
+            first_name: string;
+            last_name: string;
+            full_name: string;
+            slug: string;
+            high_school?: string | null;
+            high_school_graduate_year?: number | null;
+            college?: string | null;
+            college_graduate_year?: number | null;
+            hometown?: string | null;
+            /** Format: date */
+            birth_date?: string | null;
+            age?: number | null;
+            weight?: number | null;
+            height_feet?: number | null;
+            height_inches?: number | null;
+            jersey_number?: number | null;
+            gender: string;
+            gender_label?: string;
+            status: string;
+            /** Format: date-time */
+            published_at?: string;
+            permalink?: string;
+            hero_image_id?: number | null;
+            headshot_image_id?: number | null;
+            beauty_image_id?: number | null;
+            action_headshot_image_id?: number | null;
+        };
+        PlayerListResponse: {
+            data: components["schemas"]["Player"][];
+        };
+        PlayerResponse: {
+            data: components["schemas"]["Player"];
+        };
+        PlayerRoster: {
+            id: number;
+            roster_id: number;
+            player_id: number;
+            player: components["schemas"]["Player"];
+            headshot_image_id?: number | null;
+            jersey_number?: number | null;
+            college?: string | null;
+            years_in_the_league?: number | null;
+            /** @description HTML content */
+            pro_experience?: string | null;
+            permalink?: string;
+            height_feet?: number | null;
+            height_inches?: number | null;
+            hidden?: boolean;
+            league_category?: string | null;
+        };
+        PlayerRosterListResponse: {
+            data: components["schemas"]["PlayerRoster"][];
         };
     };
     responses: never;
