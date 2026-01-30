@@ -8,6 +8,7 @@ type RosterDetail = components['schemas']['RosterDetail']
 type RosterDetailResponse = components['schemas']['RosterDetailResponse']
 
 const name = "name"
+const naem2 = "name2"
 const BASE_URL = 'https://provolleyball.com/api'
 const route = useRoute()
 
