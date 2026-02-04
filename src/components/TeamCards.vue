@@ -2,7 +2,7 @@
 import type {components} from "../../api/types.ts";
 import {computed} from "vue";
 type Team = components["schemas"]["Team"];
-type TeamListResponse = components["schemas"]["TeamListResponse"];
+
 
 const props = defineProps<{
  team: Team
